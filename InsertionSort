@@ -1,0 +1,67 @@
+#include <iostream>
+
+
+template <typename T>
+void InsertionSort(T arr[], int n) {
+    for (int i = 1; i < n; ++i) {
+        T key = arr[i];
+        int j = i - 1;
+
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            --j;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+
+template <typename T>
+void PrintArray(const T arr[], int n) {
+    for (int i = 0; i < n; ++i) {
+        std::cout << arr[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+int main() {
+    
+    int intArr[] = {1, 5, 88, 3, 6, 4, 7, 5};
+    int n = sizeof(intArr) / sizeof(intArr[0]);
+
+    std::cout << "Original integer array: ";
+    PrintArray(intArr, n);
+
+    InsertionSort(intArr, n);
+
+    std::cout << "Sorted integer array: ";
+    PrintArray(intArr, n);
+
+    
+    double doubleArr[] = {3.2, 1.5, 4.8, 2.1, 0.9};
+    int m = sizeof(doubleArr) / sizeof(doubleArr[0]);
+    std::cout << std::endl;
+    std::cout << "Original double array: ";
+    PrintArray(doubleArr, m);
+
+    InsertionSort(doubleArr, m);
+
+    std::cout << "Sorted double array: ";
+    PrintArray(doubleArr, m);
+
+   
+    char charArr[] = {'d', 'a', 'c', 'b', 'e'};
+    int k = sizeof(charArr) / sizeof(charArr[0]);
+
+    std::cout << std::endl;
+    
+    std::cout << "Original char array: ";
+    PrintArray(charArr, k);
+
+    InsertionSort(charArr, k);
+
+    std::cout << "Sorted char array: ";
+    PrintArray(charArr, k);
+
+    return 0;
+}
