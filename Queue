@@ -1,0 +1,101 @@
+#include <iostream>
+
+struct Node
+{
+    int data;
+    Node* next;
+};
+
+class Queue
+{
+    private:
+        Node* front;
+        Node* rear;
+
+    public:
+    Queue()
+    {
+         front = rear = nullptr;
+    }
+    void enqueue(int val)
+    {
+        Node* newNode = new Node();
+        newNode->data = val;
+        newNode->next = nullptr;
+
+        if (rear == nullptr)
+        {
+            front = rear = newNode;
+            return;
+        }
+        rear->next = newNode;
+        //newNode->next = nullptr;
+        rear = newNode;
+    }
+
+
+    void dequeue()
+    {
+        if (front == nullptr)
+        {
+            std::cout << "queue is empty!!!" << std::endl;
+            return;
+        }
+
+        Node* temp = front;
+        front = front->next;
+        if (front == nullptr) {
+            rear = nullptr;
+        }
+
+        delete temp;
+    }
+
+    int getFront() {
+        if (front == nullptr) {
+            std::cout << "Queue is emoty!!!" <<std::endl;
+            return -1;
+        }
+        return front->data;
+    }
+
+    
+    bool isEmpty() {
+        return front == nullptr;
+    }
+
+    
+    void printQueue() {
+        Node* temp = front;
+        while (temp != nullptr) {
+            std::cout << temp->data << " ";
+            temp = temp->next;
+        }
+        std::cout << std::endl;
+    }
+};
+
+int main() {
+    Queue q;
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+    q.enqueue(100);
+    q.enqueue(209);
+    q.enqueue(370);
+
+    std::cout << "Queue: ";
+    q.printQueue();
+
+    std::cout << "first element: " << q.getFront() << std::endl;
+
+    q.dequeue();
+    std::cout << " After Dequeue : ";
+    q.printQueue();
+ 
+    return 0;
+}
+
+
+
+ 
