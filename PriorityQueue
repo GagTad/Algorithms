@@ -1,0 +1,109 @@
+#include <iostream>
+
+struct Node
+{
+	int data;
+	int priority;
+	Node* next;
+};
+
+class PriorityQueue
+{
+private:
+	Node* front;
+	//Node* rear;
+
+
+public:
+	PriorityQueue() { front  = nullptr;}
+	void enQueue(int val, int priority)
+	{
+		Node* newNode = new Node();
+		newNode->data = val;
+		newNode->priority = priority;
+		newNode->next = nullptr;
+
+		if (front == nullptr || priority >= front->priority )
+		{
+			newNode->next = front;
+			front = newNode;
+
+		}
+		else {
+			Node* temp = front;
+
+			while (temp->next != nullptr && temp->next->priority > priority)
+			{
+				temp = temp->next;
+			}
+			
+			newNode->next = temp->next;
+			temp->next = newNode;
+
+		}
+
+	}
+
+	void deQueue() {
+		if(front == nullptr )
+		{
+			std::cout << " Priority Queue is empty!!!" << std::endl;
+			return;
+		}
+		Node* tmp = front;
+		front = front->next;
+		delete tmp;
+	}
+
+	int getFront() {
+		if (front == nullptr) {
+			std::cout << "Priority Queue iss empty " << std::endl;
+			return -1;
+		}
+		return front->data;
+	}
+	bool isEmpty() {
+		return front == nullptr;
+
+	}
+	void clear()
+	{
+		if(isEmpty())  return;
+		while (front != nullptr)
+		{
+			deQueue();
+		}
+	}
+	void printQueue() {
+		if (isEmpty()) std::cout << "Priority Queue is empty :" << std::endl;
+		Node* temp = front;
+		while (temp != nullptr) {
+			std::cout << "(" << temp->data << ", Priority: " << temp->priority << ") " << std::endl;;
+			temp = temp->next;
+		}
+		std::cout << std::endl;
+	}
+};
+
+int main() {
+	PriorityQueue pq;
+	pq.enQueue(30, 2);
+	pq.enQueue(40, 1);
+	pq.enQueue(50, 3);
+	pq.enQueue(20, 0);
+
+	std::cout << "Priority Queue: " << std::endl;;
+	pq.printQueue();
+
+	std::cout << "the highest priority's data is  : " << pq.getFront() << std::endl;
+
+	pq.deQueue();
+	std::cout << "After deQueue the highest priority's data is : " << pq.getFront() << std::endl;
+	std::cout << "After deQueue  : "  << std::endl;
+	pq.printQueue();
+	pq.clear();
+	std::cout << "After cleaning  " << std::endl;
+	pq.printQueue();
+
+	return 0;
+}
