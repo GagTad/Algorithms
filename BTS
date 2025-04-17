@@ -1,0 +1,127 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int key;
+    Node* left;
+    Node* right;
+    Node* parent;
+
+    Node(int k) : key(k), left(nullptr), right(nullptr), parent(nullptr) {}
+};
+
+class BST {
+private:
+    Node* root;
+
+    void inorderTreeWalk(Node* x) {
+        if (x != nullptr) {
+            inorderTreeWalk(x->left);
+            cout << x->key << " ";
+            inorderTreeWalk(x->right);
+        }
+    }
+
+    Node* treeMinimum(Node* x) {
+        while (x->left != nullptr) {
+            x = x->left;
+        }
+        return x;
+    }
+public:
+    Node* treeSuccessor(Node* x) {
+        if (x->right != nullptr) {
+            return treeMinimum(x->right);
+        }
+        Node* y = x->parent;
+        while (y != nullptr && x == y->right) {
+            x = y;
+            y = y->parent;
+        }
+        return y;
+    }
+private:
+    void transplant(Node* u, Node* v) {
+        if (u->parent == nullptr) {
+            root = v;
+        }
+        else if (u == u->parent->left) {
+            u->parent->left = v;
+        }
+        else {
+            u->parent->right = v;
+        }
+        if (v != nullptr) {
+            v->parent = u->parent;
+        }
+    }
+
+    public:
+    BST() : root(nullptr) {}
+
+    void inorderTreeWalk() {
+        inorderTreeWalk(root);
+        cout << endl;
+    }
+
+    Node* treeSearch(int key) {
+        Node* current = root;
+        while (current != nullptr && key != current->key) {
+            if (key < current->key)
+                current = current->left;
+            else
+                current = current->right;
+        }
+        return current;
+    }
+
+    void treeInsert(int key) {
+        Node* z = new Node(key);
+        Node* y = nullptr;
+        Node* x = root;
+
+        while (x != nullptr) {
+            y = x;
+            if (z->key < x->key)
+                x = x->left;
+            else
+                x = x->right;
+        }
+
+        z->parent = y;
+        if (y == nullptr) {
+            root = z;  
+        }
+        else if (z->key < y->key) {
+            y->left = z;
+        }
+        else {
+            y->right = z;
+        }
+    }
+
+    void treeDelete(Node* z) {
+        if (z->left == nullptr) {
+            transplant(z, z->right);
+        }
+        else if (z->right == nullptr) {
+            transplant(z, z->left);
+        }
+        else {
+            Node* y = treeMinimum(z->right);
+            if (y->parent != z) {
+                transplant(y, y->right);
+                y->right = z->right;
+                y->right->parent = y;
+            }
+            transplant(z, y);
+            y->left = z->left;
+            y->left->parent = y;
+        }
+        delete z;
+    }
+
+    Node* getRoot() {
+        return root;
+    }
+};
