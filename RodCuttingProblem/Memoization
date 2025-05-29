@@ -1,0 +1,22 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+using namespace std;
+
+int cutRodMemo(int price[], int n, vector<int>& dp) {
+    if (n == 0) return 0;  // Base case: No rod left, no value
+
+    if (dp[n] != -1) return dp[n];  // Return cached result
+
+    int maxProfit = INT_MIN;
+ 
+    for (int i = 1; i <= n; ++i) {
+        int currentProfit = price[i - 1] + cutRodMemo(price, n - i, dp);
+        maxProfit = max(maxProfit, currentProfit);
+    }
+
+    dp[n] = maxProfit;  // Store result in memo table
+    return maxProfit;
+}
+
+
