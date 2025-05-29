@@ -1,0 +1,15 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int cutRod(int length, const std::vector<int>& prices) {
+    std::vector<int> dp(length + 1, 0);  // dp[i] = i երկարության առավելագույն գինը
+
+    for (int i = 1; i <= length; ++i) {
+        for (int j = 1; j <= i && j < prices.size(); ++j) {
+            dp[i] = std::max(dp[i], prices[j] + dp[i - j]);
+        }
+    }
+
+    return dp[length];
+}
