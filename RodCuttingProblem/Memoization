@@ -4,9 +4,9 @@
 using namespace std;
 
 int cutRodMemo(int price[], int n, vector<int>& dp) {
-    if (n == 0) return 0;  // Base case: No rod left, no value
+    if (n == 0) return 0;  
 
-    if (dp[n] != -1) return dp[n];  // Return cached result
+    if (dp[n] != -1) return dp[n];  
 
     int maxProfit = INT_MIN;
  
@@ -15,7 +15,7 @@ int cutRodMemo(int price[], int n, vector<int>& dp) {
         maxProfit = max(maxProfit, currentProfit);
     }
 
-    dp[n] = maxProfit;  // Store result in memo table
+    dp[n] = maxProfit;  
     return maxProfit;
 }
 
